@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABC Tutoring</title>
+
+<!-- ══ ADJUST 1/3: PALETTE — one line per colour, change after Dana describes her taste ══ -->
+<style>
+:root{
+  --brand:#3f8f72; --brand-ink:#2b6553; --brand-soft:#e6f3ed;
+  --accent:#e8a34a;
+  --bg:#fdfbf6; --surface:#ffffff; --line:#ece5d9;
+  --ink:#2a2724; --ink-soft:#75706a;
+  --radius:14px; --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(0,0,0,.05);
+  --font:"Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--font)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{background:var(--surface);border-bottom:1px solid var(--line)}
+.hdr{display:flex;align-items:center;gap:12px;padding:18px 0}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--brand);color:#fff;
+  display:grid;place-items:center;font-weight:700;letter-spacing:.5px}
+.brand-name{font-weight:650;font-size:1.1rem}
+.brand-tag{color:var(--ink-soft);font-size:.85rem}
+.navlink{margin-left:auto;background:none;border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px;font:inherit;font-size:.88rem;color:var(--brand-ink);cursor:pointer}
+.navlink:hover{border-color:var(--brand)}
+.bk{display:flex;gap:14px;align-items:center;justify-content:space-between;
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+  padding:16px 18px;margin-bottom:10px;flex-wrap:wrap}
+.bk .who{font-weight:650}
+.btn-danger{background:none;border:1px solid var(--line);color:#a4453a;border-radius:10px;
+  padding:9px 16px;font:inherit;font-size:.9rem;cursor:pointer}
+.btn-danger:hover{border-color:#a4453a}
+.empty{color:var(--ink-soft);padding:8px 0 0}
+.hero{padding:44px 0 28px}
+.hero h1{margin:0 0 8px;font-size:2rem;line-height:1.2;letter-spacing:-.02em}
+.hero p{margin:0;color:var(--ink-soft);max-width:52ch}
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0 24px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  padding:7px 14px;border-radius:999px;font:inherit;font-size:.88rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));padding-bottom:48px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);cursor:pointer;text-align:left;font:inherit;color:inherit;
+  display:flex;flex-direction:column}
+.card .bio{flex:1}
+.card:hover{border-color:var(--brand)}
+.card-top{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--brand-soft);color:var(--brand-ink);
+  display:grid;place-items:center;font-weight:650;flex:none}
+.name{font-weight:650}
+.meta{color:var(--ink-soft);font-size:.86rem}
+.bio{color:var(--ink-soft);font-size:.92rem;margin:0 0 14px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line);padding-top:12px}
+.rate{font-weight:650}
+.slots-left{font-size:.82rem;color:var(--ink-soft)}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:11px 20px;
+  font:inherit;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--brand-ink)}
+.btn[disabled]{background:var(--line);color:var(--ink-soft);cursor:not-allowed}
+.btn-ghost{background:none;border:1px solid var(--line);color:var(--ink-soft)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px;box-shadow:var(--shadow);margin:28px 0 48px}
+.back{background:none;border:0;color:var(--brand);font:inherit;cursor:pointer;padding:20px 0 0}
+.detail-head{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.detail-head .avatar{width:64px;height:64px;font-size:1.2rem}
+h2{margin:0;font-size:1.4rem;letter-spacing:-.01em}
+h3{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:24px 0 10px}
+.slot-grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.slot{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px;
+  font:inherit;font-size:.9rem;cursor:pointer;text-align:left}
+.slot[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-ink);font-weight:600}
+.slot[disabled]{opacity:.4;cursor:not-allowed;text-decoration:line-through}
+.field{display:block;margin-bottom:14px}
+.field span{display:block;font-size:.86rem;color:var(--ink-soft);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line);
+  border-radius:9px;font:inherit;background:var(--bg)}
+.two{display:grid;gap:0 14px;grid-template-columns:1fr 1fr}
+.confirm{text-align:center;padding:44px 26px}
+.tick{width:56px;height:56px;border-radius:50%;background:var(--brand-soft);color:var(--brand);
+  display:grid;place-items:center;font-size:1.6rem;margin:0 auto 16px}
+.recap{display:inline-block;text-align:left;background:var(--bg);border:1px solid var(--line);
+  border-radius:10px;padding:16px 20px;margin:18px 0 24px}
+.recap div{margin:4px 0}
+.recap b{color:var(--ink-soft);font-weight:500;display:inline-block;min-width:84px}
+.ask{background:var(--brand-soft);border:1px solid #cfe6da;border-radius:var(--radius);
+  padding:22px;margin:0 0 48px}
+.ask h3{margin:0 0 4px;color:var(--brand-ink);text-transform:none;letter-spacing:0;font-size:1.02rem;font-weight:650}
+.ask p{margin:0 0 14px;color:var(--ink-soft);font-size:.92rem}
+.ask form{display:flex;gap:8px;flex-wrap:wrap}
+.ask input{flex:1 1 240px;padding:10px 12px;border:1px solid #cfe6da;border-radius:9px;font:inherit;background:var(--surface)}
+.ask .done{color:var(--brand-ink);font-weight:600;margin:0}
+footer{border-top:1px solid var(--line);color:var(--ink-soft);font-size:.85rem;padding:22px 0 40px}
+@media(max-width:560px){.two{grid-template-columns:1fr}.hero h1{font-size:1.6rem}}
+</style>
+
+<!-- ══ PostHog ══ -->
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+posthog.init("phc_yiiWrS7TKNB9RrQryGnm65C2EWdukNgKkgnDZxfNaM5V", {
+  api_host: "https://us.i.posthog.com",
+  person_profiles: "always",
+  capture_pageview: true,
+  session_recording: { maskAllInputs: false }   // Dana can watch a real visitor struggle
+});
+</script>
+</head>
+<body>
+
+<header><div class="wrap hdr">
+  <div class="logo">AB</div>
+  <div><div class="brand-name" id="brandName"></div><div class="brand-tag" id="brandTag"></div></div>
+  <button class="navlink" id="navBookings" hidden></button>
+</div></header>
+
+<main class="wrap" id="app"></main>
+
+<footer><div class="wrap" id="footerNote"></div></footer>
+
+<script>
+/* ══ ADJUST 2/3: COPY — every word Dana reads, in one place ══ */
+const COPY = {
+  brandName: "ABC Tutoring",
+  brandTag:  "One-on-one tutoring, K–12",
+  heroTitle: "Find the right tutor for your child",
+  heroBody:  "Browse our tutors, pick a time that works for you, and book online. No phone tag.",
+  allFilter: "All subjects",
+  bookCta:   "Book this session",
+  chooseSlot:"Choose a time",
+  noSlots:   "Fully booked this week",
+  confirmTitle: "You're booked in",
+  confirmBody:  "We've emailed you the details, and ABC Tutoring has been notified. Your tutor will be in touch before the session.",
+  againCta:  "Book another session",
+  requestTitle: "Looking for a subject we don't list?",
+  requestBody:  "Tell us what you need and we'll let you know when we have someone.",
+  requestCta:   "Send",
+  requestThanks:"Thanks — we've noted that. We'll be in touch if we take someone on.",
+  bookingsNav:  "Your bookings",
+  bookingsTitle:"Your bookings",
+  bookingsBody: "Need to change something? Cancel here and the time goes back on the calendar.",
+  bookingsEmpty:"You haven't booked anything yet.",
+  cancelCta:    "Cancel",
+  footer:    "ABC Tutoring — prototype"
+};
+
+/* ══ ADJUST 3/3: TUTORS — fields here drive the whole page ══ */
+const TUTORS = [
+  {id:"t1",name:"Priya Raman",    subject:"Math",    levels:"Pre-Algebra, Algebra I & II", rate:32, years:8,
+   bio:"Former middle school math teacher. Specializes in rebuilding confidence before a big test."},
+  {id:"t2",name:"Tom Whelan",     subject:"Reading", levels:"Grades K–5", rate:28, years:5,
+   bio:"Focuses on phonics and comprehension. Patient with reluctant readers."},
+  {id:"t3",name:"Aisha Bello",    subject:"Science", levels:"Grades 6–12", rate:34, years:11,
+   bio:"Biology and chemistry specialist. Lots of hands-on practice and test review."},
+  {id:"t4",name:"Marcus Reid",    subject:"Math",    levels:"Grades K–5", rate:26, years:4,
+   bio:"Great with younger students. Makes number work feel like a game rather than a chore."},
+  {id:"t5",name:"Sofia Marchetti",subject:"Reading", levels:"Grades 3–8", rate:30, years:7,
+   bio:"Reading and writing together. Helps students who can decode but struggle to explain."},
+  {id:"t6",name:"Dan Osei",       subject:"Science", levels:"Grades K–6", rate:36, years:9,
+   bio:"Engineering background. Turns everyday things into science experiments."}
+];
+
+const DAYS = ["Mon 6 Oct","Tue 7 Oct","Wed 8 Oct","Thu 9 Oct"];
+const TIMES = ["4:00 PM","5:00 PM","6:00 PM"];
+
+// availability lives in client state so a booking visibly removes a slot
+const availability = {};
+TUTORS.forEach((t,ti)=>{
+  availability[t.id] = [];
+  DAYS.forEach((d,di)=>TIMES.forEach((tm,mi)=>{
+    if((ti+di+mi)%3!==0) availability[t.id].push({id:d+"|"+tm,day:d,time:tm,open:true});
+  }));
+});
+
+/* ── telemetry ─────────────────────────────────────────────── */
+const track = (event, props={}) => {
+  if (window.posthog && posthog.capture) posthog.capture(event, props);
+  console.log("[track]", event, props);
+};
+const tutorProps = t => ({tutor_id:t.id, tutor_name:t.name, subject:t.subject, hourly_rate:t.rate});
+
+/* ── state + render ────────────────────────────────────────── */
+let view = {name:"list", filter:"All", tutor:null, slot:null, booking:null};
+const bookings = [];
+const app = document.getElementById("app");
+const initials = n => n.split(" ").map(w=>w[0]).join("");
+const subjects = ["All", ...new Set(TUTORS.map(t=>t.subject))];
+const openSlots = id => availability[id].filter(s=>s.open);
+
+function render(){
+  renderNav();
+  if (view.name==="list")    return renderList();
+  if (view.name==="detail")  return renderDetail();
+  if (view.name==="confirm")  return renderConfirm();
+  if (view.name==="bookings") return renderBookings();
+}
+
+function renderNav(){
+  const n = bookings.length, el = document.getElementById("navBookings");
+  el.hidden = n === 0;
+  el.textContent = `${COPY.bookingsNav} (${n})`;
+}
+
+function renderList(){
+  const shown = TUTORS.filter(t=>view.filter==="All"||t.subject===view.filter);
+  app.innerHTML = `
+    <section class="hero">
+      <h1>${COPY.heroTitle}</h1>
+      <p>${COPY.heroBody}</p>
+    </section>
+    <div class="filters">${subjects.map(s=>`
+      <button class="chip" data-subject="${s}" aria-pressed="${view.filter===s}">
+        ${s==="All"?COPY.allFilter:s}
+      </button>`).join("")}
+    </div>
+    <div class="grid">${shown.map(t=>{
+      const n = openSlots(t.id).length;
+      return `<button class="card" data-tutor="${t.id}">
+        <div class="card-top">
+          <div class="avatar">${initials(t.name)}</div>
+          <div><div class="name">${t.name}</div>
+               <div class="meta">${t.subject} · ${t.levels}</div>
+               <div class="meta">${t.years} years experience</div></div>
+        </div>
+        <p class="bio">${t.bio}</p>
+        <div class="card-foot">
+          <span class="rate">$${t.rate}<span class="meta"> / hour</span></span>
+          <span class="slots-left">${n?`${n} times free`:COPY.noSlots}</span>
+        </div>
+      </button>`;}).join("")}
+    </div>
+    <section class="ask">
+      <h3>${COPY.requestTitle}</h3>
+      <p>${COPY.requestBody}</p>
+      <form id="askForm">
+        <input name="subject" placeholder="e.g. Geometry, or SAT prep" required>
+        <button class="btn" type="submit">${COPY.requestCta}</button>
+      </form>
+    </section>`;
+
+  app.querySelectorAll("[data-subject]").forEach(b=>b.onclick=()=>{
+    view.filter = b.dataset.subject;
+    track("filter_applied", {subject:view.filter, results:TUTORS.filter(t=>view.filter==="All"||t.subject===view.filter).length});
+    render();
+  });
+  app.querySelectorAll("[data-tutor]").forEach(b=>b.onclick=()=>{
+    view = {...view, name:"detail", tutor:TUTORS.find(t=>t.id===b.dataset.tutor), slot:null};
+    track("tutor_viewed", tutorProps(view.tutor));
+    scrollTo(0,0); render();
+  });
+
+  app.querySelector("#askForm").onsubmit = e=>{
+    e.preventDefault();
+    const wanted = new FormData(e.target).get("subject").trim();
+    track("subject_requested", {requested_subject:wanted, offered:subjects.includes(wanted)});
+    e.target.outerHTML = `<p class="done">${COPY.requestThanks}</p>`;
+  };
+
+  track("tutor_list_viewed", {tutor_count:shown.length, filter:view.filter});
+}
+
+function renderDetail(){
+  const t = view.tutor, slots = availability[t.id];
+  app.innerHTML = `
+    <button class="back">&larr; All tutors</button>
+    <section class="panel">
+      <div class="detail-head">
+        <div class="avatar">${initials(t.name)}</div>
+        <div><h2>${t.name}</h2><div class="meta">${t.subject} · ${t.levels} · ${t.years} years experience</div></div>
+      </div>
+      <p class="bio">${t.bio}</p>
+      <div class="rate">$${t.rate}<span class="meta"> per hour</span></div>
+
+      <h3>${COPY.chooseSlot}</h3>
+      <div class="slot-grid">${slots.map(s=>`
+        <button class="slot" data-slot="${s.id}" ${s.open?"":"disabled"} aria-pressed="${view.slot===s.id}">
+          ${s.day}<br><strong>${s.time}</strong>
+        </button>`).join("")}
+      </div>
+
+      <h3>Your details</h3>
+      <form id="bookingForm">
+        <div class="two">
+          <label class="field"><span>Your name</span><input name="parent" required></label>
+          <label class="field"><span>Email</span><input name="email" type="email" required></label>
+        </div>
+        <div class="two">
+          <label class="field"><span>Student's first name</span><input name="student" required></label>
+          <label class="field"><span>Grade</span>
+            <select name="grade"><option>Kindergarten</option><option>Grade 1</option><option>Grade 2</option>
+            <option>Grade 3</option><option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
+            <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option>
+            <option>Grade 11</option><option>Grade 12</option></select>
+          </label>
+        </div>
+        <label class="field"><span>Subject</span>
+          <select name="subject">${subjects.filter(s=>s!=="All").map(s=>
+            `<option ${s===t.subject?"selected":""}>${s}</option>`).join("")}</select>
+        </label>
+        <label class="field"><span>Anything the tutor should know? (optional)</span><textarea name="notes" rows="2"></textarea></label>
+        <button class="btn" type="submit" id="submitBtn" disabled>${COPY.bookCta}</button>
+      </form>
+    </section>`;
+
+  app.querySelector(".back").onclick = ()=>{
+    if(view.slot) track("booking_abandoned", {...tutorProps(t), step:"slot_selected"});
+    view = {...view, name:"list", slot:null}; scrollTo(0,0); render();
+  };
+  app.querySelectorAll("[data-slot]").forEach(b=>b.onclick=()=>{
+    view.slot = b.dataset.slot;
+    const s = slots.find(x=>x.id===view.slot);
+    track("booking_started", {...tutorProps(t), slot_day:s.day, slot_time:s.time});
+    render();
+  });
+  if(view.slot) app.querySelector("#submitBtn").disabled = false;
+
+  app.querySelector("#bookingForm").onsubmit = e=>{
+    e.preventDefault();
+    const f = Object.fromEntries(new FormData(e.target));
+    const s = slots.find(x=>x.id===view.slot);
+    s.open = false;                                  // availability updates
+    const booking = {...f, tutor:t, slot:s};
+    bookings.push(booking);
+    view = {...view, name:"confirm", booking};
+    track("booking_completed", {...tutorProps(t), slot_day:s.day, slot_time:s.time,
+      grade:f.grade, subject_booked:f.subject});
+    scrollTo(0,0); render();
+  };
+}
+
+function renderConfirm(){
+  const b = view.booking;
+  app.innerHTML = `
+    <section class="panel confirm">
+      <div class="tick">✓</div>
+      <h2>${COPY.confirmTitle}</h2>
+      <p class="bio">${COPY.confirmBody}</p>
+      <div class="recap">
+        <div><b>Tutor</b> ${b.tutor.name}</div>
+        <div><b>When</b> ${b.slot.day} at ${b.slot.time}</div>
+        <div><b>Student</b> ${b.student}, ${b.grade}</div>
+        <div><b>Subject</b> ${b.subject}</div>
+        <div><b>Cost</b> $${b.tutor.rate}</div>
+      </div>
+      <div><button class="btn btn-ghost">${COPY.againCta}</button></div>
+    </section>`;
+  app.querySelector("button").onclick = ()=>{ view={...view,name:"list",slot:null}; scrollTo(0,0); render(); };
+}
+
+function renderBookings(){
+  app.innerHTML = `
+    <button class="back">&larr; All tutors</button>
+    <section class="panel">
+      <h2>${COPY.bookingsTitle}</h2>
+      <p class="bio">${COPY.bookingsBody}</p>
+      ${bookings.length ? bookings.map((b,i)=>`
+        <div class="bk">
+          <div>
+            <div class="who">${b.tutor.name} · ${b.subject}</div>
+            <div class="meta">${b.slot.day} at ${b.slot.time} · ${b.student}, ${b.grade}</div>
+          </div>
+          <button class="btn-danger" data-cancel="${i}">${COPY.cancelCta}</button>
+        </div>`).join("") : `<p class="empty">${COPY.bookingsEmpty}</p>`}
+    </section>`;
+
+  app.querySelector(".back").onclick = ()=>{ view={...view,name:"list"}; scrollTo(0,0); render(); };
+  app.querySelectorAll("[data-cancel]").forEach(b=>b.onclick=()=>{
+    const [gone] = bookings.splice(Number(b.dataset.cancel), 1);
+    gone.slot.open = true;                         // time goes back on the calendar
+    track("booking_cancelled", {...tutorProps(gone.tutor),
+      slot_day:gone.slot.day, slot_time:gone.slot.time, subject_booked:gone.subject});
+    render();
+  });
+}
+
+document.getElementById("navBookings").onclick = ()=>{
+  view = {...view, name:"bookings"}; scrollTo(0,0); render();
+};
+document.getElementById("brandName").textContent = COPY.brandName;
+document.getElementById("brandTag").textContent  = COPY.brandTag;
+document.getElementById("footerNote").textContent = COPY.footer;
+render();
+</script>
+</body>
+</html>

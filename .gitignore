@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor / tooling state — not part of the deliverable
+.claude/
+.vscode/
+.idea/
+skills-lock.json
+
+# Node — puppeteer is only needed locally to regenerate the PDF
+node_modules/
+package-lock.json
+npm-debug.log*
+.npm/
+
+# Env
+.env
+.env.*
